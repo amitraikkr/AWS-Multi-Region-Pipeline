@@ -1,0 +1,31 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: 'Multi Region Serverless application'
+
+Globals:
+  Function:
+    Runtime: nodejs18.x
+    MemorySize: 128
+    Timeout: 10
+
+Resources:
+  MyFunctionMulti:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: index.handler
+      Events:
+        MyEvents:
+          Type: Api
+          Properties:
+            Path: /multi
+            Method: Get
+
+Outputs:
+  ApiUrl:
+    Description: 'Api Endpoint URL'
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::RGION}.amazonaws.com/Prod/multi/"
+    Export:
+      Name: ApiEndpointApi
+
+    
